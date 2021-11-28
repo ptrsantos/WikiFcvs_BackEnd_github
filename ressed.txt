@@ -1,0 +1,6 @@
+DBCC CHECKIDENT ('[TestTable]', RESEED, 0);
+GO
+
+Add-Migration AjusteArtigo -Context WikiFCVSContext
+
+Update-Database -v -Context WikiFCVSContext
