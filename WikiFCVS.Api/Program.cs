@@ -9,16 +9,22 @@ namespace WikiFCVS.Api
     {
         public static void Main(string[] args)
         {
-            if (ModoExecusao.IsDebug)
-            {
-                Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
-            }
-            else
-            {
-                Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Production");
-            }
+            //if (!ModoExecusao.IsDebug)
+            //{
+            //    Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Production");
+            //}
+            //else
+            //{
+            //    Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
+            //}
 
-            CreateWebHostBuilder(args).Build().Run();
+#if DEBUG
+         Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
+#else
+        Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Production");
+#endif
+
+        CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

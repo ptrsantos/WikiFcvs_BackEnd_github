@@ -21,7 +21,7 @@ namespace WikiFCVS.Api.Controllers
         public ValuesController(IConfiguration configuration)
         {
             ambiente = configuration.GetValue<string>("Parametros:Local");
-            connectionString = configuration.GetValue<string>("ConnectionStrings:DefaultConnection");
+            connectionString = configuration.GetValue<string>("ConnectionStrings:DefaultConnection").Substring(0, 56);
             IdGoogle = configuration.GetValue<string>("Parametros:IdGoogle");
             IdFacebook = configuration.GetValue<string>("Parametros:IdFacebook");
             SecretFacebook = configuration.GetValue<string>("Parametros:SecretFacebook");

@@ -146,34 +146,41 @@ namespace WikiFCVS.Identity.Services
 
         private IdentityUser DefinirComoAdministrador(IdentityUserClaim<string> userClaim, string userId, string userName)
         {
-            if(userName.Contains("Facebook") || userName.Contains("Google"))
+            try
             {
-                this.Notificar("Usuários cadastrados pelo Google ou Facebook não podem ser administradores!");
-                throw new Exception();
-            }
-
-            if(userClaim == null)
-            {
-                //Claim claim = new Claim("perfil", "Adminstrador");
-                IdentityUserClaim<string> userClaimDomain = new IdentityUserClaim<string>
+                if (userName.Contains("Facebook") || userName.Contains("Google"))
                 {
-                    UserId = userId,
-                    ClaimType = "perfil",
-                    ClaimValue = "Adminstrador"
-                };
-                ApplicationDbContext.Add(userClaimDomain);
-                ApplicationDbContext.SaveChanges();
+                    throw new Exception("Usuários cadastrados pelo Google ou Facebook não podem ser administradores!");
+                }
 
+                if (userClaim == null)
+                {
+                    //Claim claim = new Claim("perfil", "Adminstrador");
+                    IdentityUserClaim<string> userClaimDomain = new IdentityUserClaim<string>
+                    {
+                        UserId = userId,
+                        ClaimType = "perfil",
+                        ClaimValue = "Adminstrador"
+                    };
+                    ApplicationDbContext.Add(userClaimDomain);
+                    ApplicationDbContext.SaveChanges();
+
+                }
+                else
+                {
+                    userClaim.ClaimType = "perfil";
+                    userClaim.ClaimValue = "Administrador";
+                    ApplicationDbContext.Update(userClaim);
+                    ApplicationDbContext.SaveChanges();
+                }
+
+                return ApplicationDbContext.Users.FirstOrDefault(u => u.Id == userId);
             }
-            else
+            catch (Exception ex)
             {
-                userClaim.ClaimType = "perfil";
-                userClaim.ClaimValue = "Administrador";
-                ApplicationDbContext.Update(userClaim);
-                ApplicationDbContext.SaveChanges();
+                throw ex;
             }
-
-            return ApplicationDbContext.Users.FirstOrDefault(u => u.Id == userId);
+            
         }
 
         private IdentityUser DefinirComoUsuario(IdentityUserClaim<string> userClaim, string userId)

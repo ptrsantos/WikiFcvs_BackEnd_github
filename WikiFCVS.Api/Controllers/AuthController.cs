@@ -315,10 +315,10 @@ namespace WikiFCVS.Api.Controllers
 
             if (user != null)
             {
-                if (user.UserName == registerUser.Email)
+                if (user.Email == registerUser.Email)
                 {
                     NotificarErro("Usuário já possui cadastro no sistema");
-                    return CustomResponse(user);
+                    return CustomResponse();
                 }
             }
 
@@ -424,7 +424,7 @@ namespace WikiFCVS.Api.Controllers
             }
             catch (Exception ex)
             {
-                NotificarErro($"{ex.Message}, {ex.InnerException.Message}");
+                NotificarErro($"{ex.Message}");
                 throw ex;
             }
 

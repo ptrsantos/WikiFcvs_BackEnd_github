@@ -128,23 +128,32 @@ namespace WikiFCVS.Domain.Services
 
         public async Task<EdicaoArtigo> RetornaArtigoEdicaoHistorico(int edicaoId)
         {
-            EdicaoArtigo edicao1 = await EdicaoArtigoRepository.RetornaArtigoEdicao(edicaoId);
-            EdicaoArtigo edicao2 = await EdicaoArtigoRepository.RetornaArtigoEdicaoAnterior(edicao1);
-            if (edicao2 != null)
+            EdicaoArtigo edicaoAtual = await EdicaoArtigoRepository.RetornaArtigoEdicao(edicaoId);
+            EdicaoArtigo edicaoAnterior = await EdicaoArtigoRepository.RetornaArtigoEdicaoAnterior(edicaoAtual);
+            if (edicaoAnterior != null)
             {
-                EdicaoArtigo edicaoHistorico = RetornaArtigoEdicaoComAlteracoes(edicao1, edicao2);
+                EdicaoArtigo edicaoHistorico = RetornaArtigoEdicaoComAlteracoes(edicaoAtual, edicaoAnterior);
                 return edicaoHistorico;
             }
             else
             {
-                edicao1.Titulo = edicao1.RetornaTituloEmTextoPuro();
-                edicao1.Conteudo = edicao1.RetornaConteudoEmTextoPuro();
-                edicao1.ConteudoTextoPuroParaHtml();
-                return edicao1;
+                DiffMatchPatch.diff_match_patch xdiff_Titulo = new diff_match_patch();
+                List<DiffMatchPatch.Diff> diffs_Titulo = xdiff_Titulo.diff_main(edicaoAtual.RetornaTituloEmTextoPuro(), edicaoAtual.RetornaTituloEmTextoPuro(), true);
+                xdiff_Titulo.diff_cleanupSemantic(diffs_Titulo);
+                string html_Titulo = xdiff_Titulo.diff_prettyHtml(diffs_Titulo);
+                edicaoAtual.Titulo = html_Titulo;
+
+                DiffMatchPatch.diff_match_patch xdiff_Conteudo = new diff_match_patch();
+                List<DiffMatchPatch.Diff> diffs_Conteudo = xdiff_Conteudo.diff_main(edicaoAtual.RetornaConteudoEmTextoPuro(), edicaoAtual.RetornaConteudoEmTextoPuro(), true);
+                xdiff_Conteudo.diff_cleanupSemantic(diffs_Conteudo);
+                string html_Conteudo = xdiff_Conteudo.diff_prettyHtml(diffs_Conteudo);
+                //html_Conteudo = html_Conteudo.Replace("<del style=\"background:#ffe6e6;\">", "<del style='background:#228b22;'>"); //.Replace("<ins style=\"background:#e6ffe6;\">", "<ins style='background:#A9F5E1;'>");
+                edicaoAtual.Conteudo = html_Conteudo.Replace("&para;", "");
+                return edicaoAtual;
             }
         }
 
-        private EdicaoArtigo RetornaArtigoEdicaoComAlteracoes(EdicaoArtigo edicao1, EdicaoArtigo edicao2)
+        private EdicaoArtigo RetornaArtigoEdicaoComAlteracoes(EdicaoArtigo edicaoAtual, EdicaoArtigo edicaoAnterior)
         {
             //Edicao edicaoHistorico = new Edicao()
 
@@ -152,20 +161,20 @@ namespace WikiFCVS.Domain.Services
             {
                 //Pass the strings to be matched for Diff
                 DiffMatchPatch.diff_match_patch xdiff_Titulo = new diff_match_patch();
-                List<DiffMatchPatch.Diff> diffs_Titulo = xdiff_Titulo.diff_main(edicao2.RetornaTituloEmTextoPuro(), edicao1.RetornaTituloEmTextoPuro(), true);
+                List<DiffMatchPatch.Diff> diffs_Titulo = xdiff_Titulo.diff_main(edicaoAnterior.RetornaTituloEmTextoPuro(), edicaoAtual.RetornaTituloEmTextoPuro(), true);
                 xdiff_Titulo.diff_cleanupSemantic(diffs_Titulo);
                 string html_Titulo = xdiff_Titulo.diff_prettyHtml(diffs_Titulo);
-                edicao1.Titulo = html_Titulo;
+                edicaoAtual.Titulo = html_Titulo;
 
                 DiffMatchPatch.diff_match_patch xdiff_Conteudo = new diff_match_patch();
-                List<DiffMatchPatch.Diff> diffs_Conteudo = xdiff_Conteudo.diff_main(edicao2.RetornaConteudoEmTextoPuro(), edicao1.RetornaConteudoEmTextoPuro(), true);
+                List<DiffMatchPatch.Diff> diffs_Conteudo = xdiff_Conteudo.diff_main(edicaoAnterior.RetornaConteudoEmTextoPuro(), edicaoAtual.RetornaConteudoEmTextoPuro(), true);
                 xdiff_Conteudo.diff_cleanupSemantic(diffs_Conteudo);
                 string html_Conteudo = xdiff_Conteudo.diff_prettyHtml(diffs_Conteudo);
                 //html_Conteudo = html_Conteudo.Replace("<del style=\"background:#ffe6e6;\">", "<del style='background:#228b22;'>"); //.Replace("<ins style=\"background:#e6ffe6;\">", "<ins style='background:#A9F5E1;'>");
-                edicao1.Conteudo = html_Conteudo.Replace("&para;", "");
-                edicao1.ConteudoTextoPuroParaHtml();
+                edicaoAtual.Conteudo = html_Conteudo.Replace("&para;", "");
+                //edicao1.ConteudoTextoPuroParaHtml();
 
-                return edicao1;
+                return edicaoAtual;
 
             }
             catch (Exception ex)

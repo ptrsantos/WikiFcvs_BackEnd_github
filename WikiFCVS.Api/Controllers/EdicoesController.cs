@@ -115,7 +115,7 @@ namespace WikiFCVS.Api.Controllers
             }
             catch (Exception ex)
             {
-                NotificarErro($"{ex.Message}, {ex.InnerException.Message}");
+                NotificarErro($"{ex.Message}");
                 throw ex;
             }
         }
@@ -184,7 +184,7 @@ namespace WikiFCVS.Api.Controllers
             }
             catch (Exception ex)
             {
-                NotificarErro($"{ex.Message}, {ex.InnerException.Message}");
+                NotificarErro($"{ex.Message}");
                 throw ex;
             }
         }
@@ -208,7 +208,7 @@ namespace WikiFCVS.Api.Controllers
             }
             catch (Exception ex)
             {
-                NotificarErro($"{ex.Message}, {ex.InnerException.Message}");
+                NotificarErro($"{ex.Message}");
                 throw ex;
             }
         }

@@ -31,26 +31,53 @@ namespace WikiFCVS.Api.Controllers
         [HttpGet("ListarUsuarios")]
         public async Task<ActionResult> ListarUsuarios()
         {
-            var listaUsuarios = await AspNetUserService.ListarUsuarios();
-            var listaUsuairosDto = RetornaListaUsuarioIdentityDtoMapeado(listaUsuarios);
-            return CustomResponse(listaUsuairosDto);
+            try
+            {
+                var listaUsuarios = await AspNetUserService.ListarUsuarios();
+                var listaUsuairosDto = RetornaListaUsuarioIdentityDtoMapeado(listaUsuarios);
+                return CustomResponse(listaUsuairosDto);
+            }
+            catch (System.Exception ex)
+            {
+                string mensagem = $"{ex.Message}";
+                NotificarErro(mensagem);
+                return CustomResponse();
+            }
         }
 
 
         [HttpGet("bloqueio")]
         public ActionResult Bloqueio(string id)
         {
-            UsuarioIdentity usuario  = AspNetUserService.Bloqueio(id);
-            UsuarioIdentityDto usuarioDto = RetornaUsuarioIdentityDtoMapeado(usuario);
-            return CustomResponse(usuarioDto);
+            try
+            {
+                UsuarioIdentity usuario  = AspNetUserService.Bloqueio(id);
+                UsuarioIdentityDto usuarioDto = RetornaUsuarioIdentityDtoMapeado(usuario);
+                return CustomResponse(usuarioDto);
+            }
+            catch (System.Exception ex)
+            {
+                string mensagem = $"{ex.Message}";
+                NotificarErro(mensagem);
+                return CustomResponse();
+            }
         }
 
         [HttpGet("alterarPerfil")]
         public ActionResult AlterarPerfil(string id)
         {
-            UsuarioIdentity usuario = AspNetUserService.EditarPerfil(id);
-            UsuarioIdentityDto usuarioDto = RetornaUsuarioIdentityDtoMapeado(usuario);
-            return CustomResponse(usuarioDto);
+            try
+            {
+                UsuarioIdentity usuario = AspNetUserService.EditarPerfil(id);
+                UsuarioIdentityDto usuarioDto = RetornaUsuarioIdentityDtoMapeado(usuario);
+                return CustomResponse(usuarioDto);
+            }
+            catch (System.Exception ex)
+            {
+                string mensagem = $"{ex.Message}";
+                NotificarErro(mensagem);
+                return CustomResponse();
+            }
         }
 
 
