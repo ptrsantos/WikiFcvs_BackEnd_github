@@ -23,10 +23,25 @@ namespace WikiFCVS.Identity.Extensions
     public class ClaimsAuthorizeAttribute : TypeFilterAttribute
     {
          
-        public ClaimsAuthorizeAttribute(string claimName, string claimValue) : base(typeof(RequisitoClaimFilter))
+        public ClaimsAuthorizeAttribute(string claimName1, string claimValue1, string claimName2 = "", string claimValue2 = "") : base(typeof(RequisitoClaimFilter))
         {
             //Arguments = new object[] { new ClaimsAuthorizeAttribute(claimName, claimValue) };
-            Arguments = new object[] { new Claim(claimName, claimValue) };
+            if (claimName2 == "")
+            {
+                Arguments = new object[] { new Claim(claimName1, claimValue1), new Claim(claimName2, claimValue2) };
+            }
+            else
+            {
+                Arguments = new object[] { new Claim(claimName1, claimValue1) };
+            }
+            //if (claimName2 == "")
+            //{
+            //    Arguments = new object[] { new Claim(claimName1, claimValue1) };
+            //}
+            //else
+            //{
+            //    Arguments = new object[] { new Claim(claimName1, claimValue1), new Claim(claimName2, claimValue2) };
+            //}
         }
     }
 
