@@ -192,7 +192,7 @@ namespace WikiFCVS.Domain.Services
         //    string titulo = xdiff_Titulo.diff_text2(diffs_Titulo);
         //    string titulo2 = xdiff_Titulo.diff_text1(diffs_Titulo);
         //    var teste = xdiff_Titulo.
-  
+
 
         //    DiffMatchPatch.diff_match_patch xdiff_Conteudo = new diff_match_patch();
         //    List<DiffMatchPatch.Diff> diffs_Conteudo = xdiff_Conteudo.diff_main(edicao.RetornaConteudoEmTextoPuro(), filtro, true);
@@ -247,7 +247,7 @@ namespace WikiFCVS.Domain.Services
             EdicaoArtigo edicao = await EdicaoArtigoRepository.RetornaEdicaoArtigoTemaPorArtigoId(artigoId);
             return edicao;
         }
-        
+
 
         public async Task<EdicaoArtigo> SalvarInclusaoDados(EdicaoTema edicaoTema, EdicaoArtigo edicaoArtigo, Guid usuarioId, string usuarioEmail)
         {
@@ -264,9 +264,9 @@ namespace WikiFCVS.Domain.Services
 
                 if (temaHome == null || temaDomain == null)
                 {
-                    if(temaDomain == null && temaHome != null)
+                    if (temaDomain == null && temaHome != null)
                     {
-                        if(temaHome.Edicoes.ToList().LastOrDefault().Titulo == edicaoTema.Titulo)
+                        if (temaHome.Edicoes.ToList().LastOrDefault().Titulo == edicaoTema.Titulo)
                         {
                             Exception ex = new Exception("O nome do título do tema já está sendo usado pela página incial");
                             throw ex;
@@ -298,7 +298,7 @@ namespace WikiFCVS.Domain.Services
 
                     artigoDomain.IncluirTema(temaDomain);
                     temaDomain.AdicionarArtigoNaLista(artigoDomain);
-          
+
                     await TemaRepository.Atualizar(temaDomain);
 
                     return edicaoArtigoDomain;
@@ -331,6 +331,6 @@ namespace WikiFCVS.Domain.Services
                 throw ex;
             }
         }
-                     
+
     }
 }

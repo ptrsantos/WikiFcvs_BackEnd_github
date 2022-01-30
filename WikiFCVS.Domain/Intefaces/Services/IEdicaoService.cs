@@ -21,7 +21,7 @@ namespace WikiFCVS.Domain.Intefaces.Services
         //Task<Edicao> SalvarDados(Tema tema, Artigo artigo, Guid usuarioId, string usuarioEmail);
         Task<EdicaoArtigo> SalvarInclusaoDados(EdicaoTema edicaoTema, EdicaoArtigo edicaoArtigo, Guid usuarioId, string usuarioEmail);
         Task<EdicaoArtigo> SalvarArtigoEdicao(Artigo artigo, EdicaoArtigo edicao, Guid usuarioId, string usuarioEmail);
-        
+
     }
     
 }

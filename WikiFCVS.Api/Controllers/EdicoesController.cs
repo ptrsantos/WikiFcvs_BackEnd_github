@@ -16,7 +16,8 @@ using WikiFCVS.Identity.Interfaces.User;
 
 namespace WikiFCVS.Api.Controllers
 {
-    //[Authorize]
+    [Authorize]
+    //[ClaimsAuthorize("perfil", "Administrador")]
     [Route("api/edicoes")]
     public class EdicoesController : MainController
     {

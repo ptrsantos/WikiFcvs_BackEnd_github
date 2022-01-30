@@ -11,7 +11,6 @@ using System.Text.Encodings.Web;
 using HtmlAgilityPack;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 using System.Linq;
 using System.Net;
 
@@ -40,7 +39,7 @@ namespace WikiFCVS.Domain.Models
             EdicaoEfetuada.EdicaoArtigo = this;
             Titulo = edicao.Titulo;
             Conteudo = edicao.Conteudo;
-         }
+        }
 
         public EdicaoArtigo(EdicaoArtigo edicaoArtigo)
         {
@@ -101,7 +100,7 @@ namespace WikiFCVS.Domain.Models
         {
             var agleSharpUtilies = new AngleSharpUtilies();
             var plainText = agleSharpUtilies.ConvertHtmlToText(Conteudo);
-            string conteudoTratado = plainText; 
+            string conteudoTratado = plainText;
             return conteudoTratado;
         }
 
@@ -124,7 +123,7 @@ namespace WikiFCVS.Domain.Models
         private string GetPlainTextFromHtml(string htmlString)
         {
 
-             Regex[] _htmlReplaces = new[] {
+            Regex[] _htmlReplaces = new[] {
                             new Regex(@"<script\b[^<]*(?:(?!</script>)<[^<]*)*</script>", RegexOptions.Compiled | RegexOptions.Singleline, TimeSpan.FromSeconds(1)),
                             new Regex(@"<style\b[^<]*(?:(?!</style>)<[^<]*)*</style>", RegexOptions.Compiled | RegexOptions.Singleline, TimeSpan.FromSeconds(1)),
                             new Regex(@"<[^>]*>", RegexOptions.Compiled),
@@ -157,10 +156,10 @@ namespace WikiFCVS.Domain.Models
             text = text.Replace(Environment.NewLine, "<br/>");
             //text = text.Replace("  ", "&para;");
             //text = text.Replace("  ", "&#182;");
-            this.Conteudo = "<div>" + text  + "</div>";
+            this.Conteudo = "<div>" + text + "</div>";
 
         }
 
-       
+
     }
 }

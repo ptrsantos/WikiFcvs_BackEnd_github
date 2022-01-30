@@ -14,7 +14,7 @@ using WikiFCVS.Identity.Interfaces.User;
 namespace WikiFCVS.Api.Controllers
 {
     [Authorize]
-    [ClaimsAuthorize("perfil", "Administrador")]
+    [ClaimsAuthorize("perfil", "Gestor")]
     [Route("api/Estatisticas")]
     public class EstatisticasController : MainController
     {
@@ -29,6 +29,7 @@ namespace WikiFCVS.Api.Controllers
             EstatisticaService = estatisticaService;
             Mapper = mapper;
         }
+
 
         [HttpGet("ListarDadosEstitisticos")]
         public async Task<ActionResult> ListarDadosEstitisticos()

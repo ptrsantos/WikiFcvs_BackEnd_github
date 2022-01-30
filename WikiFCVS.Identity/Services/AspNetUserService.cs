@@ -29,14 +29,14 @@ namespace WikiFCVS.Identity.Services
             UserManager = userManager;
         }
 
-        public async Task<ICollection<UsuarioIdentity>> ListarUsuarios()
+        public async Task<ICollection<UsuarioIdentity>> ListarUsuarios(IUser appUser)
         {
             try
             {
 
                 ICollection<UsuarioIdentity> listarUsuarios = new List<UsuarioIdentity>();
                 //var usuarios = this.UserManager.Users.ToListAsync();
-                var lista = await ApplicationDbContext.Users.ToListAsync();
+                var lista = await ApplicationDbContext.Users.Where(u => u.Id != appUser.GetUserId().ToString()).ToListAsync();
                 foreach (var user in lista)
                 {
                     UsuarioIdentity usuarioIdentity = RetornaUsuarioIdentity(user);
@@ -58,7 +58,7 @@ namespace WikiFCVS.Identity.Services
             try
             {
                 var user = ApplicationDbContext.Users.FirstOrDefault(u => u.Id == usuarioId);
-                if(user.LockoutEnd != null && user.LockoutEnd.Value.ToString().Substring(0, 10).Equals("09/09/9999"))
+                if (user.LockoutEnd != null && user.LockoutEnd.Value.ToString().Substring(0, 10).Equals("09/09/9999"))
                 {
                     return RetornaUsuarioIdentity(DesbloquearUsuario(user));
                 }
@@ -110,21 +110,27 @@ namespace WikiFCVS.Identity.Services
 
         public UsuarioIdentity EditarPerfil(string id)
         {
-            IdentityUser user  = ApplicationDbContext.Users.FirstOrDefault(u => u.Id == id);
+            IdentityUser user = ApplicationDbContext.Users.FirstOrDefault(u => u.Id == id);
             return EditarPerfil(user.Id, user.UserName);
         }
 
-        public UsuarioIdentity EditarPerfil(string usuarioId, string usuarioNome)
+        public UsuarioIdentity EditarPerfil(string usuarioId, string userName)
         {
             try
             {
+                if (userName.Contains("Facebook") || userName.Contains("Google"))
+                    {
+                        //this.Notificar("Usuários cadastrados pelo Google ou Facebook não podem ser administradores!");
+                        throw new Exception("Usuários cadastrados pelo Google ou Facebook não podem ser gestores!");
+                    }
+
                 IdentityUser identityUser = null;
                 IdentityUserClaim<string> userClaim = ApplicationDbContext.UserClaims.FirstOrDefault(c => c.UserId == usuarioId);
                 if (userClaim != null)
                 {
-                    if(userClaim.ClaimValue == null || userClaim.ClaimValue == "Usuario")
+                    if (userClaim.ClaimValue == null || userClaim.ClaimValue == "Usuario")
                     {
-                        identityUser = DefinirComoAdministrador(userClaim, usuarioId, usuarioNome);
+                        identityUser = DefinirComoAdministrador(userClaim, usuarioId, userName);
                     }
                     else
                     {
@@ -146,46 +152,39 @@ namespace WikiFCVS.Identity.Services
 
         private IdentityUser DefinirComoAdministrador(IdentityUserClaim<string> userClaim, string userId, string userName)
         {
-            try
+            if (userName.Contains("Facebook") || userName.Contains("Google"))
             {
-                if (userName.Contains("Facebook") || userName.Contains("Google"))
-                {
-                    throw new Exception("Usuários cadastrados pelo Google ou Facebook não podem ser administradores!");
-                }
-
-                if (userClaim == null)
-                {
-                    //Claim claim = new Claim("perfil", "Adminstrador");
-                    IdentityUserClaim<string> userClaimDomain = new IdentityUserClaim<string>
-                    {
-                        UserId = userId,
-                        ClaimType = "perfil",
-                        ClaimValue = "Adminstrador"
-                    };
-                    ApplicationDbContext.Add(userClaimDomain);
-                    ApplicationDbContext.SaveChanges();
-
-                }
-                else
-                {
-                    userClaim.ClaimType = "perfil";
-                    userClaim.ClaimValue = "Administrador";
-                    ApplicationDbContext.Update(userClaim);
-                    ApplicationDbContext.SaveChanges();
-                }
-
-                return ApplicationDbContext.Users.FirstOrDefault(u => u.Id == userId);
+                this.Notificar("Usuários cadastrados pelo Google ou Facebook não podem ser administradores!");
+                throw new Exception();
             }
-            catch (Exception ex)
+
+            if (userClaim == null)
             {
-                throw ex;
+                //Claim claim = new Claim("perfil", "Adminstrador");
+                IdentityUserClaim<string> userClaimDomain = new IdentityUserClaim<string>
+                {
+                    UserId = userId,
+                    ClaimType = "perfil",
+                    ClaimValue = "Gestor"
+                };
+                ApplicationDbContext.Add(userClaimDomain);
+                ApplicationDbContext.SaveChanges();
+
             }
-            
+            else
+            {
+                userClaim.ClaimType = "perfil";
+                userClaim.ClaimValue = "Gestor";
+                ApplicationDbContext.Update(userClaim);
+                ApplicationDbContext.SaveChanges();
+            }
+
+            return ApplicationDbContext.Users.FirstOrDefault(u => u.Id == userId);
         }
 
         private IdentityUser DefinirComoUsuario(IdentityUserClaim<string> userClaim, string userId)
         {
-            if(userClaim != null)
+            if (userClaim != null)
             {
                 //userClaim.ClaimType = null;
                 //userClaim.ClaimValue = null;
@@ -213,7 +212,7 @@ namespace WikiFCVS.Identity.Services
         {
             UsuarioIdentity usuarioIdentity = new UsuarioIdentity(identityUser);
             IdentityUserClaim<string> userClaim = ApplicationDbContext.UserClaims.Where(c => c.UserId == identityUser.Id).FirstOrDefault();
-            if (userClaim?.ClaimValue != null )
+            if (userClaim?.ClaimValue != null)
             {
                 usuarioIdentity.InserirClaim(userClaim.ClaimType, userClaim.ClaimValue);
                 //Claim claim = new Claim(userClaim.ClaimType, userClaim.ClaimValue);

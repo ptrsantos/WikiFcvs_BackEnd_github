@@ -38,8 +38,8 @@ namespace WikiFCVS.Data.Context
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(WikiFCVSContext).Assembly);
 
-            
-            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.Cascade;
+
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.Cascade; // DeleteBehavior.ClientSetNull; 
 
 
 

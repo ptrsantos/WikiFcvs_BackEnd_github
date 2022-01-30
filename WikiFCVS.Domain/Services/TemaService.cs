@@ -14,14 +14,17 @@ namespace WikiFCVS.Domain.Services
         private readonly ITemaRepository TemaRepository;
         private readonly IArtigoRepository ArtigoRepository;
         private readonly IEdicaoArtigoRepository EdicaoRepository;
+        private readonly IEdicaoTemaRepository EdicaoTemaRepository;
 
         public TemaService(ITemaRepository temaRepository,
+                            IEdicaoTemaRepository edicaoTemaRepository,
                             IArtigoRepository artigoRepository,
                             IEdicaoArtigoRepository edicaoRepository,
                             INotificador notificador
                             ) : base(notificador)
         {
             TemaRepository = temaRepository;
+            EdicaoTemaRepository = edicaoTemaRepository;
             ArtigoRepository = artigoRepository;
             EdicaoRepository = edicaoRepository;
         }
@@ -132,6 +135,7 @@ namespace WikiFCVS.Domain.Services
         {
             try
             {
+                //ExcluirEdicaoTema(temaId);
                 Tema temaDomiain = await TemaRepository.RetornaTemaPorId(temaId);
                 await TemaRepository.Remover(temaDomiain);
             }
@@ -141,5 +145,19 @@ namespace WikiFCVS.Domain.Services
             }
             //throw new NotImplementedException();
         }
+
+        //public async Task ExcluirEdicaoTema(int temaId)
+        //{
+        //    try
+        //    {
+        //        EdicaoTema edicaoTemaDomiain = await EdicaoTemaRepository.RetornaEdicaoTemaPorTemaIdAsync(temaId);
+        //        await EdicaoTemaRepository.Remover(edicaoTemaDomiain);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    //throw new NotImplementedException();
+        //}
     }
 }

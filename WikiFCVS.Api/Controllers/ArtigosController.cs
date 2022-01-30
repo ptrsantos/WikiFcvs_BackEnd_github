@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ using WikiFCVS.Identity.Interfaces.User;
 
 namespace WikiFCVS.Api.Controllers
 {
+    [Authorize]
     [Route("api/artigos")]
     public class ArtigosController : MainController
     {

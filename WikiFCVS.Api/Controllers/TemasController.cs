@@ -18,7 +18,7 @@ using WikiFCVS.Identity.Extensions;
 namespace DevIO.Api.Controllers
 {
     [Authorize]
-    [ClaimsAuthorize("perfil", "Administrador")]
+    [ClaimsAuthorize("perfil", "Gestor")]
     [Route("api/temas")]
     public class TemasController : MainController
     {
@@ -62,7 +62,7 @@ namespace DevIO.Api.Controllers
             }
             catch (Exception ex)
             {
-                NotificarErro($"{ex.Message}, {ex.InnerException.Message}");
+                NotificarErro($"{ex.Message}");
                 throw ex;
             }
         }

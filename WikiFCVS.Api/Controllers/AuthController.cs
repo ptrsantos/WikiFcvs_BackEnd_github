@@ -9,6 +9,7 @@ using AutoMapper;
 using DevIO.Api.ViewModel;
 using Facebook;
 using Google.Apis.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +28,7 @@ using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace WikiFCVS.Api.Controllers
 {
+    //[Authorize]
     [Route("api/auth")]
     public class AuthController : MainController
     {
@@ -315,10 +317,10 @@ namespace WikiFCVS.Api.Controllers
 
             if (user != null)
             {
-                if (user.Email == registerUser.Email)
+                if (user.UserName == registerUser.Email)
                 {
                     NotificarErro("Usuário já possui cadastro no sistema");
-                    return CustomResponse();
+                    return CustomResponse(user);
                 }
             }
 

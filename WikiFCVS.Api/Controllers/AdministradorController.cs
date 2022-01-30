@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WikiFCVS.Api.Dto.Identity;
@@ -13,19 +14,21 @@ using WikiFCVS.Identity.Models;
 namespace WikiFCVS.Api.Controllers
 {
     [Authorize]
-    [ClaimsAuthorize("perfil", "Administrador")]
+    [ClaimsAuthorize("perfil","Administrador")]
     [Route("api/Administrador")]
     public class AdministradorController : MainController
     {
 
         private readonly IMapper Mapper;
         private readonly IAspNetUserService AspNetUserService;
+        private readonly IUser AppUser;
 
-        public AdministradorController(IMapper mapper, INotificador notificador, IUser AppUser,
-                                       IAspNetUserService aspNetUserService) : base(notificador, AppUser)
+        public AdministradorController(IMapper mapper, INotificador notificador, IUser appUser,
+                                       IAspNetUserService aspNetUserService) : base(notificador, appUser)
         {
             Mapper = mapper;
             AspNetUserService = aspNetUserService;
+            AppUser = appUser;
         }
 
         [HttpGet("ListarUsuarios")]
@@ -33,15 +36,14 @@ namespace WikiFCVS.Api.Controllers
         {
             try
             {
-                var listaUsuarios = await AspNetUserService.ListarUsuarios();
+                var listaUsuarios = await AspNetUserService.ListarUsuarios(AppUser);
                 var listaUsuairosDto = RetornaListaUsuarioIdentityDtoMapeado(listaUsuarios);
                 return CustomResponse(listaUsuairosDto);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                string mensagem = $"{ex.Message}";
-                NotificarErro(mensagem);
-                return CustomResponse();
+                ModelState.AddModelError("Execption: ", ex.Message);
+                return CustomResponse(ModelState);
             }
         }
 
@@ -51,16 +53,16 @@ namespace WikiFCVS.Api.Controllers
         {
             try
             {
-                UsuarioIdentity usuario  = AspNetUserService.Bloqueio(id);
+                UsuarioIdentity usuario = AspNetUserService.Bloqueio(id);
                 UsuarioIdentityDto usuarioDto = RetornaUsuarioIdentityDtoMapeado(usuario);
                 return CustomResponse(usuarioDto);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                string mensagem = $"{ex.Message}";
-                NotificarErro(mensagem);
-                return CustomResponse();
+                ModelState.AddModelError("Execption: ", ex.Message);
+                return CustomResponse(ModelState);
             }
+ 
         }
 
         [HttpGet("alterarPerfil")]
@@ -72,12 +74,12 @@ namespace WikiFCVS.Api.Controllers
                 UsuarioIdentityDto usuarioDto = RetornaUsuarioIdentityDtoMapeado(usuario);
                 return CustomResponse(usuarioDto);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                string mensagem = $"{ex.Message}";
-                NotificarErro(mensagem);
-                return CustomResponse();
+                ModelState.AddModelError("Execption: ", ex.Message);
+                return CustomResponse(ModelState);
             }
+
         }
 
 

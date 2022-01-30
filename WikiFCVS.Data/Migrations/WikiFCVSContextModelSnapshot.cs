@@ -20,151 +20,151 @@ namespace WikiFCVS.Data.Migrations
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("WikiFCVS.Domain.Models.Artigo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("EdicaoId");
+                b.Property<int?>("EdicaoId");
 
-                    b.Property<int?>("TemaId");
+                b.Property<int?>("TemaId");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("EdicaoId");
+                b.HasIndex("EdicaoId");
 
-                    b.HasIndex("TemaId");
+                b.HasIndex("TemaId");
 
-                    b.ToTable("Artigos");
-                });
+                b.ToTable("Artigos");
+            });
 
             modelBuilder.Entity("WikiFCVS.Domain.Models.EdicaoArtigo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ArtigoId");
+                b.Property<int>("ArtigoId");
 
-                    b.Property<string>("Conteudo")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Conteudo")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<int>("EdicaoEfetuadaId");
+                b.Property<int>("EdicaoEfetuadaId");
 
-                    b.Property<string>("Titulo")
-                        .HasColumnType("varchar(100)");
+                b.Property<string>("Titulo")
+                    .HasColumnType("varchar(100)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("ArtigoId");
+                b.HasIndex("ArtigoId");
 
-                    b.HasIndex("EdicaoEfetuadaId")
-                        .IsUnique();
+                b.HasIndex("EdicaoEfetuadaId")
+                    .IsUnique();
 
-                    b.ToTable("EdicoesArtigos");
-                });
+                b.ToTable("EdicoesArtigos");
+            });
 
             modelBuilder.Entity("WikiFCVS.Domain.Models.EdicaoTema", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("EdicaoEfetuadaId");
+                b.Property<int>("EdicaoEfetuadaId");
 
-                    b.Property<int>("TemaId");
+                b.Property<int>("TemaId");
 
-                    b.Property<string>("Titulo")
-                        .HasColumnType("varchar(100)");
+                b.Property<string>("Titulo")
+                    .HasColumnType("varchar(100)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("EdicaoEfetuadaId")
-                        .IsUnique();
+                b.HasIndex("EdicaoEfetuadaId")
+                    .IsUnique();
 
-                    b.HasIndex("TemaId");
+                b.HasIndex("TemaId");
 
-                    b.ToTable("EdicoesTemas");
-                });
+                b.ToTable("EdicoesTemas");
+            });
 
             modelBuilder.Entity("WikiFCVS.Domain.Models.Protocolo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("EditadoEm");
+                b.Property<DateTime>("EditadoEm");
 
-                    b.Property<string>("EditadoPorEmail")
-                        .HasColumnType("varchar(100)");
+                b.Property<string>("EditadoPorEmail")
+                    .HasColumnType("varchar(100)");
 
-                    b.Property<Guid>("EditadoPorId");
+                b.Property<Guid>("EditadoPorId");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Protocolos");
-                });
+                b.ToTable("Protocolos");
+            });
 
             modelBuilder.Entity("WikiFCVS.Domain.Models.RegistroUsuario", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DataRegistro");
+                b.Property<DateTime>("DataRegistro");
 
-                    b.Property<string>("UsuarioId")
-                        .HasColumnType("varchar(100)");
+                b.Property<string>("UsuarioId")
+                    .HasColumnType("varchar(100)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("RegistroUsuarios");
-                });
+                b.ToTable("RegistroUsuarios");
+            });
 
             modelBuilder.Entity("WikiFCVS.Domain.Models.Tema", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Temas");
-                });
+                b.ToTable("Temas");
+            });
 
             modelBuilder.Entity("WikiFCVS.Domain.Models.Artigo", b =>
-                {
-                    b.HasOne("WikiFCVS.Domain.Models.EdicaoArtigo", "Edicao")
-                        .WithMany()
-                        .HasForeignKey("EdicaoId");
+            {
+                b.HasOne("WikiFCVS.Domain.Models.EdicaoArtigo", "Edicao")
+                    .WithMany()
+                    .HasForeignKey("EdicaoId");
 
-                    b.HasOne("WikiFCVS.Domain.Models.Tema", "Tema")
-                        .WithMany("Artigos")
-                        .HasForeignKey("TemaId");
-                });
+                b.HasOne("WikiFCVS.Domain.Models.Tema", "Tema")
+                    .WithMany("Artigos")
+                    .HasForeignKey("TemaId");
+            });
 
             modelBuilder.Entity("WikiFCVS.Domain.Models.EdicaoArtigo", b =>
-                {
-                    b.HasOne("WikiFCVS.Domain.Models.Artigo", "Artigo")
-                        .WithMany("Edicoes")
-                        .HasForeignKey("ArtigoId");
+            {
+                b.HasOne("WikiFCVS.Domain.Models.Artigo", "Artigo")
+                    .WithMany("Edicoes")
+                    .HasForeignKey("ArtigoId");
 
-                    b.HasOne("WikiFCVS.Domain.Models.Protocolo", "EdicaoEfetuada")
-                        .WithOne("EdicaoArtigo")
-                        .HasForeignKey("WikiFCVS.Domain.Models.EdicaoArtigo", "EdicaoEfetuadaId");
-                });
+                b.HasOne("WikiFCVS.Domain.Models.Protocolo", "EdicaoEfetuada")
+                    .WithOne("EdicaoArtigo")
+                    .HasForeignKey("WikiFCVS.Domain.Models.EdicaoArtigo", "EdicaoEfetuadaId");
+            });
 
             modelBuilder.Entity("WikiFCVS.Domain.Models.EdicaoTema", b =>
-                {
-                    b.HasOne("WikiFCVS.Domain.Models.Protocolo", "EdicaoEfetuada")
-                        .WithOne("EdicaoTema")
-                        .HasForeignKey("WikiFCVS.Domain.Models.EdicaoTema", "EdicaoEfetuadaId");
+            {
+                b.HasOne("WikiFCVS.Domain.Models.Protocolo", "EdicaoEfetuada")
+                    .WithOne("EdicaoTema")
+                    .HasForeignKey("WikiFCVS.Domain.Models.EdicaoTema", "EdicaoEfetuadaId");
 
-                    b.HasOne("WikiFCVS.Domain.Models.Tema", "Tema")
-                        .WithMany("Edicoes")
-                        .HasForeignKey("TemaId");
-                });
+                b.HasOne("WikiFCVS.Domain.Models.Tema", "Tema")
+                    .WithMany("Edicoes")
+                    .HasForeignKey("TemaId");
+            });
 #pragma warning restore 612, 618
         }
     }

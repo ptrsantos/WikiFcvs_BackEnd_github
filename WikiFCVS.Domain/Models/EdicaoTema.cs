@@ -7,9 +7,9 @@ namespace WikiFCVS.Domain.Models
 {
     public class EdicaoTema
     {
-        private EdicaoTema edicaoTema;
-        private Guid usuarioId;
-        private string usuarioEmail;
+        //private EdicaoTema edicaoTema;
+        //private Guid usuarioId;
+        //private string usuarioEmail;
 
         public int Id { get; set; }
         public string Titulo { get; set; }
@@ -29,8 +29,8 @@ namespace WikiFCVS.Domain.Models
         {
             EdicaoEfetuada = new Protocolo(usuarioId, usuarioEmail);
             Titulo = temaTitulo;
-            this.usuarioId = usuarioId;
-            this.usuarioEmail = usuarioEmail;
+            //this.usuarioId = usuarioId;
+            //this.usuarioEmail = usuarioEmail;
         }
 
         public EdicaoTema(EdicaoTema edicaoTema, Guid usuarioId, string usuarioEmail)
@@ -38,8 +38,8 @@ namespace WikiFCVS.Domain.Models
             EdicaoEfetuada = new Protocolo(usuarioId, usuarioEmail);
             Titulo = edicaoTema.Titulo;
             //this.edicaoTema = edicaoTema;
-            this.usuarioId = usuarioId;
-            this.usuarioEmail = usuarioEmail;
+            //this.usuarioId = usuarioId;
+            //this.usuarioEmail = usuarioEmail;
         }
 
         internal void IncluirTema(Tema tema)
