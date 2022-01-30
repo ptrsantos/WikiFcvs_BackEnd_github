@@ -17,6 +17,7 @@ namespace WikiFCVS.Api.Controllers
 {
     [Authorize]
     [Route("api/artigos")]
+    [ClaimsAuthorize("perfil", "Gestor", "perfil", "Administrador")]
     public class ArtigosController : MainController
     {
         private readonly IArtigoService ArtigoService;
@@ -33,7 +34,7 @@ namespace WikiFCVS.Api.Controllers
             AppUser = appUser;
         }
 
-        [ClaimsAuthorize("perfil", "Administrador")]
+        
         [HttpDelete("ExcluirArtigo")]
         public async Task<ActionResult> ExcluirArtigo(int artigoId)
         {
