@@ -35,8 +35,9 @@ namespace WikiFCVS.Identity.Services
             {
 
                 ICollection<UsuarioIdentity> listarUsuarios = new List<UsuarioIdentity>();
-                //var usuarios = this.UserManager.Users.ToListAsync();
-                var lista = await ApplicationDbContext.Users.Where(u => u.Id != appUser.GetUserId().ToString()).ToListAsync();
+                var listaUsers = await ApplicationDbContext.Users.Where(u => u.Id != appUser.GetUserId().ToString()).ToListAsync();
+                var listaUserIds = await ApplicationDbContext.UserClaims.Where(uc => uc.ClaimValue == "Administrador").Select(uc => uc.UserId).ToListAsync();
+                var lista = listaUsers.Where(u => u.Id != listaUserIds.Find(id => id == u.Id)).ToList();
                 foreach (var user in lista)
                 {
                     UsuarioIdentity usuarioIdentity = RetornaUsuarioIdentity(user);
