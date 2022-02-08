@@ -14,7 +14,7 @@ using WikiFCVS.Identity.Interfaces.User;
 namespace WikiFCVS.Api.Controllers
 {
     [Authorize]
-    [ClaimsAuthorize("perfil", "Gestor", "perfil", "Administrador")]
+    [ClaimsAuthorize("perfil", "Gestor,Administrador")]
     [Route("api/Estatisticas")]
     public class EstatisticasController : MainController
     {

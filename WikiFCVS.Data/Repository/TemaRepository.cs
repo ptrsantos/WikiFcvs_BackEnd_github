@@ -93,7 +93,7 @@ namespace WikiFCVS.Data.Repository
                                     .ThenInclude(e => e.EdicaoEfetuada)
                                     .Include(t => t.Edicoes)
                                     .ThenInclude(ed => ed.EdicaoEfetuada)
-                                    .Where(t => t.Edicoes.Any(e =>e.Titulo.Contains(edicaoTema.Titulo)))
+                                    .Where(t => t.Edicoes.Any(e =>e.Titulo == edicaoTema.Titulo))
                                     .FirstOrDefaultAsync();
 
                 return tema;

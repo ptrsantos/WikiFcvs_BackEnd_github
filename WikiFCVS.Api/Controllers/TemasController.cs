@@ -18,7 +18,7 @@ using WikiFCVS.Identity.Extensions;
 namespace DevIO.Api.Controllers
 {
     [Authorize]
-    [ClaimsAuthorize("perfil", "Gestor", "perfil", "Administrador")]
+    [ClaimsAuthorize("perfil", "Gestor,Administrador")]
     [Route("api/temas")]
     public class TemasController : MainController
     {

@@ -17,7 +17,7 @@ namespace WikiFCVS.Api.Controllers
 {
     [Authorize]
     [Route("api/artigos")]
-    [ClaimsAuthorize("perfil", "Gestor", "perfil", "Administrador")]
+    [ClaimsAuthorize("perfil", "Gestor,Administrador")]
     public class ArtigosController : MainController
     {
         private readonly IArtigoService ArtigoService;

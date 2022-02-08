@@ -268,7 +268,7 @@ namespace WikiFCVS.Domain.Services
                     {
                         if (temaHome.Edicoes.ToList().LastOrDefault().Titulo == edicaoTema.Titulo)
                         {
-                            Exception ex = new Exception("O nome do título do tema já está sendo usado pela página incial");
+                            Exception ex = new Exception("O nome do título do tema já está sendo usado pela página inicial. Escolha outro título para o Tema.");
                             throw ex;
                         }
                     }

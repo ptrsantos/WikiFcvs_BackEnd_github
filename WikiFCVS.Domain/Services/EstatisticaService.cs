@@ -68,54 +68,60 @@ namespace WikiFCVS.Domain.Services
             {
                 ICollection<MesTotal> quantidadePorMes = new List<MesTotal>();
 
-                int mesInicial = DateTime.Now.Month;
-                int mesFinal = mesInicial - 7;
-                int ano = DateTime.Now.Year;
-
                 switch (tipo)
                 {
                     case "registroUsuario":
-                        for (int mes = mesInicial; mes >= mesFinal; mes--)
+                        for (int diferenca = -7; diferenca <= 0; diferenca++)
                         {
-                            ICollection<RegistroUsuario> retorno = this.ListaRegistroUsuariosGloboal.Where(ru => ru.DataRegistro.Month == mes).ToList();
+                            var dataProcurada = DateTime.Now.AddMonths(diferenca);
+                            ICollection<RegistroUsuario> retorno = this.ListaRegistroUsuariosGloboal
+                                                                       .Where(ru => ru.DataRegistro.Month == dataProcurada.Month
+                                                                              && ru.DataRegistro.Year == dataProcurada.Year).ToList();
                             MesTotal mesTotal = new MesTotal
                             {
-                                MesNumerico = mes,
-                                MesLiteral = RetornaMesLiteral(mes),
+                                DataRegistro = dataProcurada,
+                                MesNumerico = dataProcurada.Month,
+                                AnoMumerico = dataProcurada.Year,
+                                MesLiteral = RetornaMesLiteral(dataProcurada.Month),
                                 Total = retorno.Count()
                             };
                             quantidadePorMes.Add(mesTotal);
-                            //quantidadePorMes[mes] = retorno.Count();
                         };
                         break;
                     case "edicao":
-                        for (int mes = mesInicial; mes >= mesFinal; mes--)
+                        for (int diferenca = -7; diferenca <= 0; diferenca++)
                         {
-                            ICollection<EdicaoArtigo> retorno = this.ListaEdicoesGlobal.Where(e => e.EdicaoEfetuada.EditadoEm.Month == mes).ToList();
+                            var dataProcurada = DateTime.Now.AddMonths(diferenca);
+                            ICollection<EdicaoArtigo> retorno = this.ListaEdicoesGlobal
+                                                                    .Where(e => e.EdicaoEfetuada.EditadoEm.Month == dataProcurada.Month
+                                                                           && e.EdicaoEfetuada.EditadoEm.Year == dataProcurada.Year).ToList();
                             MesTotal mesTotal = new MesTotal
                             {
-                                MesNumerico = mes,
-                                MesLiteral = RetornaMesLiteral(mes),
+                                DataRegistro = dataProcurada,
+                                MesNumerico = dataProcurada.Month,
+                                AnoMumerico = dataProcurada.Year,
+                                MesLiteral = RetornaMesLiteral(dataProcurada.Month),
                                 Total = retorno.Count()
                             };
                             quantidadePorMes.Add(mesTotal);
-                            //quantidadePorMes[mes] = retorno.Count();
                         };
                         break;
                     case "artigo":
-                        for (int mes = mesInicial; mes >= mesFinal; mes--)
+                        for (int diferenca = -7; diferenca <= 0; diferenca++)
                         {
+                            var dataProcurada = DateTime.Now.AddMonths(diferenca);
                             ICollection<Artigo> retorno = ListaArtigosGlobal.Distinct()
-                                                          .Where(a => a.Edicoes.Any(ed => ed.EdicaoEfetuada.EditadoEm.Month == mes)).ToList();
-                            //ICollection<Artigo> retorno = this.ListaArtigosGlobal.Where(a => a.Edicoes).ToList();
+                                                          .Where(a => a.Edicoes.Any(ed => ed.EdicaoEfetuada.EditadoEm.Month == dataProcurada.Month
+                                                                 && ed.EdicaoEfetuada.EditadoEm.Year == dataProcurada.Year)).ToList();
                             MesTotal mesTotal = new MesTotal
                             {
-                                MesNumerico = mes,
-                                MesLiteral = RetornaMesLiteral(mes),
+                                DataRegistro = dataProcurada,
+                                MesNumerico = dataProcurada.Month,
+                                AnoMumerico = dataProcurada.Year,
+                                MesLiteral = RetornaMesLiteral(dataProcurada.Month),
                                 Total = retorno.Count()
                             };
                             quantidadePorMes.Add(mesTotal);
-                            //quantidadePorMes[mes] = retorno.Count();
                         };
                         break;
                 }
@@ -126,7 +132,6 @@ namespace WikiFCVS.Domain.Services
             {
                 throw ex;
             }
-            
         }
 
         private string RetornaMesLiteral(int mes)

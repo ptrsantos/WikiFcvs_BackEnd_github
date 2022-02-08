@@ -26,6 +26,8 @@ namespace WikiFCVS.Api.Controllers
             IdFacebook = configuration.GetValue<string>("Parametros:IdFacebook");
             SecretFacebook = configuration.GetValue<string>("Parametros:SecretFacebook");
             Emissor = configuration.GetValue<string>("AppSettings:Emissor");
+            var auxConnectionString = configuration.GetValue<string>("ConnectionStrings:DefaultConnection").Split(';');
+            connectionString = auxConnectionString[0];
         }
 
         //GET api/values

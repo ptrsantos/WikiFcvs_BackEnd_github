@@ -10,29 +10,17 @@ namespace WikiFCVS.Identity.Extensions
     {
         public static bool ValidarClaimsUsuario(HttpContext context, string claimName, string claimValue)
         {
-            //foreach(var claim in context.User.Claims)
-            //{
-            //    var type = claim.Type;
-            //    var values = claim.Value.Split(',');
-            //}
-            return context.User.Identity.IsAuthenticated && context.User.Claims.Any(c => c.Type == claimName && c.Value.Split(',').Contains(claimValue));
+            //return context.User.Identity.IsAuthenticated && context.User.Claims.Any(c => c.Type == claimName && c.Value.Split(',').Contains(claimValue));
+            return context.User.Identity.IsAuthenticated && context.User.Claims.Any(c => c.Type == claimName && claimValue.Split(',').Contains(c.Value));
         }
 
     }
 
     public class ClaimsAuthorizeAttribute : TypeFilterAttribute
     {
-         
-        public ClaimsAuthorizeAttribute(string claimName1, string claimValue1, string claimName2 = "", string claimValue2 = "") : base(typeof(RequisitoClaimFilter))
+        public ClaimsAuthorizeAttribute(string claimName, string claimValue) : base(typeof(RequisitoClaimFilter))
         {
-            if (claimName2 == "")
-            {
-                Arguments = new object[] { new Claim(claimName1, claimValue1), new Claim(claimName2, claimValue2) };
-            }
-            else
-            {
-                Arguments = new object[] { new Claim(claimName1, claimValue1) };
-            }
+            Arguments = new object[] { new Claim(claimName, claimValue) };
         }
     }
 

@@ -14,7 +14,7 @@ using WikiFCVS.Identity.Models;
 namespace WikiFCVS.Api.Controllers
 {
     [Authorize]
-    [ClaimsAuthorize("perfil","Administrador", "perfil", "Administrador")]
+    [ClaimsAuthorize("perfil","Administrador")]
     [Route("api/Administrador")]
     public class AdministradorController : MainController
     {
